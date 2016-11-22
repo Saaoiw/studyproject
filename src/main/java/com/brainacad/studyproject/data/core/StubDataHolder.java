@@ -14,17 +14,20 @@ import static com.brainacad.studyproject.data.domain.Role.USER;
  */
 public class StubDataHolder {
 
-    private static HashSet users;
+    private static Collection<User> users;
+    //TODO: add collection with advertisement
     private static boolean created = false;
 
-    public static void createData(){
+    public static void createData() {
         if (!created) {
             User admin = new User();
+            admin.setId(1);
             admin.setUsername("admin");
             admin.setPassword("admin");
             admin.setRole(ADMIN);
 
             User user = new User();
+            user.setId(2);
             user.setUsername("user");
             user.setPassword("user");
             user.setRole(USER);
@@ -33,11 +36,19 @@ public class StubDataHolder {
             users.add(admin);
             users.add(user);
 
+            //TODO: fill ad collection
+
             created = true;
         }
     }
 
-    public static Collection<User> getUsers(){
+    public static int add(User user) {
+        if (users.add(user)) {
+            return user.getId();
+        } else return 0;
+    }
+
+    public static Collection<User> getUsers() {
         return users;
     }
 

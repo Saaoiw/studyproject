@@ -11,32 +11,23 @@ public class ConnectionManager {
 
     private static ConnectionManager instance;
 
-    private ConnectionManager(){
-        }
+    private ConnectionManager() {
+    }
 
-    public static ConnectionManager getInstance(){
+    public static ConnectionManager getInstance() {
         if (instance == null) {
             instance = new ConnectionManager();
         }
         return instance;
     }
 
-    public Connection getConnection(){
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/brain?useUnicode\\=true&characterEncoding\\=UTF-8", "root", "root");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return connection;
+    public Connection getConnection() {
+        return JdbcConnectionPool.getInstance().getConnection();
     }
 
-    public void closeConnection(Connection connection){
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void closeConnection(Connection connection) {
+        JdbcConnectionPool.getInstance().releaseConnection(connection);
     }
 
 }
+
