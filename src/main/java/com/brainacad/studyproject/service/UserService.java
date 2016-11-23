@@ -13,9 +13,13 @@ public interface UserService {
 
     User getUserById(int id);
 
+    User getUserByName(String userName);
+
     int addUser(User user);
 
     boolean update(User user);
 
     boolean delete(int id);
+
+
 }

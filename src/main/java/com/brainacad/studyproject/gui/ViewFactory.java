@@ -25,7 +25,7 @@ public class ViewFactory {
     }
 
     public RefreshableView getView(View type) {
-        RefreshableView refreshableView;
+       // RefreshableView refreshableView;
         switch (type) {
             case LOGIN:
                 holder.putIfAbsent(type, new LoginView());

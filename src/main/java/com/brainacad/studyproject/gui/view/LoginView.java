@@ -1,14 +1,18 @@
 package com.brainacad.studyproject.gui.view;
 
+import com.brainacad.studyproject.data.domain.Role;
 import com.brainacad.studyproject.gui.ViewRouter;
 import com.brainacad.studyproject.service.LoginService;
 import com.brainacad.studyproject.service.impl.LoginServiceImpl;
+import com.brainacad.studyproject.service.impl.UserServiceImpl;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static com.brainacad.studyproject.data.domain.Role.ADMIN;
+import static com.brainacad.studyproject.gui.view.View.ADS;
 import static com.brainacad.studyproject.gui.view.View.LOGIN;
 import static com.brainacad.studyproject.gui.view.View.USERS;
 
@@ -56,8 +60,14 @@ public class LoginView extends RefreshableView {
                 boolean login = loginService.login(username, password);
                 if (login) {
                     //TODO: check if ADMIN or USER? switch to USERS or ADS
-                    ViewRouter viewRouter = ViewRouter.getInstance();
-                    viewRouter.switchView(getName(), USERS);
+                    UserServiceImpl userService = new UserServiceImpl();
+                    if (userService.getUserByName(username).getRole() == ADMIN) {
+                        ViewRouter viewRouter = ViewRouter.getInstance();
+                        viewRouter.switchView(getName(), USERS);
+                    } else {
+                        ViewRouter viewRouter = ViewRouter.getInstance();
+                        viewRouter.switchView(getName(), ADS);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Wrong username or password");
                     refresh();
